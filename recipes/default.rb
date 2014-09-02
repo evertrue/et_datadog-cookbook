@@ -7,10 +7,10 @@
 # All rights reserved - Do Not Redistribute
 #
 
-keys = Chef::EncryptedDataBagItem.load('secrets','api_keys')['datadog']
-dd_app = node['datadog']['application']
+service 'datadog-agent' do
+  action [:stop]
+end
 
-node.set['datadog']['api_key'] = keys['api_key']
-node.set['datadog']['application_key'] = keys['application_keys'][dd_app]
-
-include_recipe "datadog::dd-agent"
+package 'datadog-agent' do
+  action :remove
+end
